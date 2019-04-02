@@ -3,15 +3,20 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-// Routes
+function debug( $v ) {
+	echo '<pre>';
+	print_r( $v );
+	echo '</pre>';
+}
 
+// Routes
 $app->get('/verify-phone',
 	function (Request $request, Response $response, array $args) {
 	    // Sample log message
 	    $this->logger->info("Verify Phone '/'");
 
 	    // Render index view
-	    return $this->renderer->render($response, 'index.phtml', $args);
+	    return $this->view->render($response, 'verification_start.phtml', $args);
 });
 
 // API routes for phone number verification
@@ -20,17 +25,26 @@ $app->get('/verify-phone',
 $app->post('/verify-phone/start',
 	function (Request $request, Response $response, array $args) {
 		$this->logger->info("Verify Phone '/start'");
+
+		$verifyService = $this->get('phone_verifier');
+		$res = $verifyService->start( $_POST['phone_number'] );
+
+		// Show the result of whether or not the verification code was sent
+		echo json_encode( $res );
 });
 
-// This will return the any existing status checks for a phone number
-$app->get('/verify-phone/status',
+$app->get('/verify-phone/check',
 	function (Request $request, Response $response, array $args) {
-		$this->logger->info("Verify Phone '/status'");
-		
+		return $this->view->render($response, 'verification_check.phtml', $args);
 });
 
 // This will verify whether or not the phone number/code combo is valid
 $app->post('/verify-phone/check',
 	function (Request $request, Response $response, array $args) {
-		$this->logger->info("Verify Phone '/check'");		
+		$this->logger->info("Verify Phone '/check'");
+
+		$verifyService = $this->get('phone_verifier');
+		$res = $verifyService->check( $_POST['phone_number'], $_POST['code'] );
+
+		echo json_encode( $res );
 });

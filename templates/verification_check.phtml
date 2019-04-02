@@ -1,0 +1,33 @@
+{% extends "layout.phtml" %}
+
+{% block body %}
+<div className="container">
+    <div className="form-group">
+        <form method="POST">
+            <label for="phone_number">
+            	Enter your phone number:
+            </label>
+            <input
+            	type="tel"
+            	name="phone_number"
+            	id="phone_number" />
+            <br />
+
+            <label for="code">
+                Enter Code:
+            </label>
+            <input
+                type="text"
+                name="code"
+                id="code" />
+            <br />
+
+            <input
+                type="submit"
+                name="submit"
+                value="Verify Number"
+                class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+{% endblock %}

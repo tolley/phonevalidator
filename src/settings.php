@@ -21,8 +21,7 @@ return [
 
         // The settings for the phone validation service
         'twilio' => [
-            'sid' => 'AC90ee131fe8d3272c738af0e7fba7b7f2',
-            'auth_token' => '737434c3712301c960db59880c8b56be'
+            'apikey' => 'YLdLlOo7Zmc3mfgjfst2DVzGKZopsj9D'
         ],
     ],
 ];

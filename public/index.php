@@ -17,6 +17,28 @@ session_start();
 $settings = require __DIR__ . '/../src/settings.php';
 $app = new \Slim\App($settings);
 
+// Set up our containers
+$container = $app->getContainer();
+
+// Switch the view engine to twig
+$container['view'] = function ($container) {
+    $view = new \Slim\Views\Twig('../templates', [
+        'cache' => false
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $router = $container->get('router');
+    $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
+    $view->addExtension(new Slim\Views\TwigExtension($router, $uri));
+
+    return $view;
+};
+
+// Add our phone verifier container
+require '../src/twilioPhoneVerifier.php';
+$twilioApiKey = $container->get( 'settings' )['twilio']['apikey'];
+$container['phone_verifier'] = new TwilioPhoneVerifier( $twilioApiKey );
+
 // Set up dependencies
 require __DIR__ . '/../src/dependencies.php';
 
