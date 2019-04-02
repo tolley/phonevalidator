@@ -1,11 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Hello } from "./components/Hello";
-
-const element = <h1>Hello World</h1>;
+import { VerificationForm } from "./components/VerificationForm"
 
 ReactDOM.render(
-	<Hello compiler="TypeScript" framework="React" />,
-	document.getElementById( "example" )
+	<VerificationForm />,
+	document.getElementById( "verify_phone_container" )
 );

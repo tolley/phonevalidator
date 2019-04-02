@@ -9,13 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/react": "^16.8.10",
-    "@types/react-dom": "^16.8.3",
+    "fetch": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "webpack": "^4.29.6"
   },
   "devDependencies": {
+    "@types/react": "^16.8.10",
+    "@types/react-dom": "^16.8.3",
     "awesome-typescript-loader": "^5.2.1",
     "source-map-loader": "^0.2.4",
     "typescript": "^3.4.1",
