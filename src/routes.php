@@ -42,8 +42,6 @@ $app->post('/verify-phone/start',
 			$verifyService = $this->get('phone_verifier');
 			$res = $verifyService->start( $postVars['phone_number'] );
 
-			dd( $res );
-
 			// Show the result of whether or not the verification code was sent
 			return $this->view->render($response, 'verification_check.phtml', $args);
 		}
