@@ -13,6 +13,14 @@
             	id="phone_number" />
             <br />
 
+            {% if errors is not null and errors['phone_number'] is defined %}
+                <ul class="errors">
+                    {% for msg in errors['phone_number'] %}
+                        <li>{{msg}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <input
                 type="submit"
                 name="submit"

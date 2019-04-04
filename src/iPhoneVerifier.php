@@ -6,12 +6,12 @@ interface iPhoneVerifier {
 	/**
 	 * @param string $phoneNumber - The phone number to validate
 	 */
-	public function start( $phoneNumber );
+	public function start( string $phoneNumber );
 
 	/**
 	 * @param string $phoneNumber - The phone number to validate
 	 * @param int $verificationCode - The verification code that the
 	 								  user entered
 	 */
-	public function check( $phoneNumber, $verificationCode );
+	public function check( string $phoneNumber, string $verificationCode );
 }

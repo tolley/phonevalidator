@@ -16,7 +16,7 @@ class TwilioPhoneVerifier implements iPhoneVerifier {
  	private $country_code = '1'; // The country code
 	private $code_length = 4; // The number of digits that the code should contain
 
-	public function __construct( $apiKey ) {
+	public function __construct( string $apiKey ) {
 		// Create an instance of the authy api object for twilio requests
 		$this->authyApi = new Authy\AuthyApi( $apiKey );
 	}
@@ -28,7 +28,7 @@ class TwilioPhoneVerifier implements iPhoneVerifier {
 	 * @param string $phoneNumber - The phone number to validate
 	 * @return array An array containing the success status, a result message, and a TTL for the code
 	 */
-	public function start( $phoneNumber ) {
+	public function start( string $phoneNumber ) {
 		// Strip out all non numeric characters from the phone number
 		$phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
 
@@ -64,7 +64,7 @@ class TwilioPhoneVerifier implements iPhoneVerifier {
 	 *								  user entered
 	 * @return array An array containing the success status and a message
 	 */
-	public function check( $phoneNumber, $verificationCode ) {
+	public function check( string $phoneNumber, string $verificationCode ) {
 		$phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
 		$verificationCode = preg_replace( '~\D~', '', $verificationCode );
 
