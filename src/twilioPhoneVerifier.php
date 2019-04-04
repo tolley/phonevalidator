@@ -12,13 +12,18 @@ class TwilioPhoneVerifier implements iPhoneVerifier {
 	protected $authyApi;
 
 	// The arguments to pass to the twilio API
- 	private $method = 'sms'; // The method to use to send the verification code
+ 	private $method;// The method to use to send the verification code
  	private $country_code = '1'; // The country code
 	private $code_length = 4; // The number of digits that the code should contain
 
-	public function __construct( string $apiKey ) {
+	public function __construct( array $config ) {
+		// Set the relevant config settings on this object if they exist
+		$this->method = strlen($config['method'])? $config['method']: 'sms';
+		$this->$country_code = strlen($config['country_code'])? $config['country_code']: '1';
+		$this->code_length = strlen($config['code_length'])? $config['code_length']: '4';
+
 		// Create an instance of the authy api object for twilio requests
-		$this->authyApi = new Authy\AuthyApi( $apiKey );
+		$this->authyApi = new Authy\AuthyApi( $config['apikey'] );
 	}
 
 	/**

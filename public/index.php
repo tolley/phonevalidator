@@ -36,8 +36,8 @@ $container['view'] = function ($container) {
 
 // Add our phone verifier container
 require '../src/twilioPhoneVerifier.php';
-$twilioApiKey = $container->get( 'settings' )['twilio']['apikey'];
-$container['phone_verifier'] = new TwilioPhoneVerifier( $twilioApiKey );
+$twilioSettings = $container->get( 'settings' )['twilio'];
+$container['phone_verifier'] = new TwilioPhoneVerifier( $twilioSettings );
 
 // Set up dependencies
 require __DIR__ . '/../src/dependencies.php';

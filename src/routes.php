@@ -38,8 +38,11 @@ $app->post('/verify-phone/start',
 			return $this->view->render($response, 'verification_start.phtml', $args);		
 		} else {
 			// Get our phone verifier service and start the verification process
+			$postVars = $request->getParsedBody();
 			$verifyService = $this->get('phone_verifier');
-			$res = $verifyService->start( $request->post('phone_number') );
+			$res = $verifyService->start( $postVars['phone_number'] );
+
+			dd( $res );
 
 			// Show the result of whether or not the verification code was sent
 			return $this->view->render($response, 'verification_check.phtml', $args);

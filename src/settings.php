@@ -21,6 +21,9 @@ return [
 
         // The settings for the phone validation service
         'twilio' => [
+            'method' => 'sms',
+            'country_code' => '1',
+            'code_length' => '4',
             'apikey' => 'YLdLlOo7Zmc3mfgjfst2DVzGKZopsj9D'
         ],
     ],
