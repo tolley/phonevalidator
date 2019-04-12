@@ -1,0 +1,9 @@
+{% extends "layout.phtml" %}
+
+{% block body %}
+<div className="container">
+    {% if message is defined %}
+        <h1>{{message}}</h1>
+    {% endif %}
+</div>
+{% endblock %}
