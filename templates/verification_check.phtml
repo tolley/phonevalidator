@@ -1,7 +1,7 @@
 {% extends "layout.phtml" %}
 
 {% block body %}
-<div className="container">
+<div className="container" id="verification-check-form">
     {% if message is defined %}
         <span class="error">
             {{message}}
@@ -9,15 +9,36 @@
     {% endif %}
     <div className="form-group">
         <form method="POST" action="/verify-phone/check">
+            {% if errors['phone_number'] is defined %}
+                <ul class="errors">
+                    {% for msg in errors['phone_number'] %}
+                        <li>{{msg}}</li>
+                    {% endfor %}
+                </ul>
+                <br />
+            {% endif %}
+
             <label for="phone_number">
             	Enter your phone number:
             </label>
             <input
+                {% if errors['phone_number'] is defined %}
+                    class="error"
+                {% endif %}
             	type="tel"
             	name="phone_number"
             	id="phone_number"
                 value="{{phone_number}}" />
             <br />
+
+            {% if errors['code'] is defined %}
+                <ul class="errors">
+                    {% for msg in errors['code'] %}
+                        <li>{{msg}}</li>
+                    {% endfor %}
+                </ul>
+                <br />
+            {% endif %}
 
             <label for="code">
                 Enter Code:
@@ -25,6 +46,7 @@
             <input
                 type="text"
                 name="code"
+                value="{{code}}"
                 id="code" />
             <br />
 
@@ -32,7 +54,7 @@
                 type="submit"
                 name="submit"
                 value="Verify Number"
-                class="btn btn-primary" />
+                class="btn btn-primary submit" />
         </form>
     </div>
 </div>

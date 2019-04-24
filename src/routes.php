@@ -31,16 +31,21 @@ $app->post('/verify-phone/start',
 	function (Request $request, Response $response, array $args) {
 		$this->logger->info("Verify Phone '/start'");
 
-		// If there are errors, render the start form with errors
-		$errors = $request->getAttribute('errors');
+		// If there are errors, render the start form with them errors,
+		// otherwise, pass an empty array to the view to prevent undefined errors
+		$errors = is_array( $request->getAttribute('errors') )? 
+			$request->getAttribute('errors'): array();
+
+		// If we had actual errors, rerender our initial form with errors
 		if(!empty($errors)) {
 			$args['errors'] = $errors;
 			return $this->view->render($response, 'verification_start.phtml', $args);		
 		} else {
-			// Get our phone verifier service and start the verification process
+			// Otherwise, get our phone verifier service and start the verification process
 			$postVars = $request->getParsedBody();
 			$verifyService = $this->get('phone_verifier');
 			$res = $verifyService->start( $postVars['phone_number'] );
+			$args['phone_number'] = $postVars['phone_number'];
 
 			// Show the result of whether or not the verification code was sent
 			return $this->view->render($response, 'verification_check.phtml', $args);
@@ -61,10 +66,45 @@ $app->post('/verify-phone/check',
 	function (Request $request, Response $response, array $args) {
 		$this->logger->info("Verify Phone '/check'");
 
-		$verifyService = $this->get('phone_verifier');
-		$res = $verifyService->check( $_POST['phone_number'], $_POST['code'] );
+		// Make sure $errors is defined as an array to prevent errors in the view
+		// If there are errors, render the start form with them errors,
+		// otherwise, pass an empty array to the view to prevent undefined errors
+		$errors = is_array( $request->getAttribute('errors') )? 
+			$request->getAttribute('errors'): array();
 
-		echo json_encode( $res );
+		$postVars = $request->getParsedBody();
+
+		// If there are no errors, run the verification service
+		if( empty( $errors ) ) {
+			$verifyService = $this->get('phone_verifier');
+			$res = $verifyService->check( $postVars['phone_number'], $postVars['code'] );
+
+			// If the response was a success, show the success page
+			if( $res['success'] ) {
+				$checkArgs = [
+					'message' => $res['message']
+				];
+
+				return $this->view->render($response, 'verification_success.phtml', $checkArgs);
+			} else {
+				// Otherwise, show the start page again with errors
+				$checkArgs = [
+					'message' => $res['message'],
+					'phone_number' => $postVars['phone_number']
+				];
+
+				return $this->view->render($response, 'verification_check.phtml', $checkArgs);
+			}
+		} else {
+			// Otherwise, we need to reshow the form with the errors
+			$checkArgs = array(
+				'errors' => $errors,
+				'phone_number' => $postVars['phone_number'],
+				'code' => $postVars['code']
+			);
+
+			return $this->view->render($response, 'verification_check.phtml', $checkArgs );
+		}
 })->add(new \DavidePastore\Slim\Validation\Validation(
 	array(
 		'phone_number' => $phoneNumberValidator,

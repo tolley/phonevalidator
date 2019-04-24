@@ -1,31 +1,34 @@
 {% extends "layout.phtml" %}
 
 {% block body %}
-<div className="container">
+<div className="container" id="verification-start-form">
     <div className="form-group">
         <form method="POST" action="/verify-phone/start">
-            <label for="phone_number">
-            	Enter your phone number:
-            </label>
-            <input
-            	type="tel"
-            	name="phone_number"
-            	id="phone_number" />
-            <br />
-
-            {% if errors is not null and errors['phone_number'] is defined %}
+            {% if errors['phone_number'] is defined %}
                 <ul class="errors">
                     {% for msg in errors['phone_number'] %}
                         <li>{{msg}}</li>
                     {% endfor %}
                 </ul>
+                <br />
             {% endif %}
+
+            <label for="phone_number">
+            	Enter your phone number:
+            </label>
+            <input
+                class="error"
+            	type="tel"
+            	name="phone_number"
+                value="{{phone_number}}"
+            	id="phone_number" />
+            <br />
 
             <input
                 type="submit"
                 name="submit"
                 value="Send Verification Code"
-                class="btn btn-primary" />
+                class="btn btn-primary submit" />
         </form>
     </div>
 </div>

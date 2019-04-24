@@ -12,7 +12,7 @@ class TwilioPhoneVerifier implements iPhoneVerifier {
 	protected $authyApi;
 
 	// The arguments to pass to the twilio API
- 	private $method;// The method to use to send the verification code
+ 	private $method; // The method to use to send the verification code
  	private $country_code = '1'; // The country code
 	private $code_length = 4; // The number of digits that the code should contain
 

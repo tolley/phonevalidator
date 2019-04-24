@@ -1,4 +1,1 @@
-ul.errors li {
-	list-style: none;
-	color: #F00;
-}
+div#verification-check-form,div#verification-start-form{width:450px}div#verification-check-form label,div#verification-start-form label{float:left}div#verification-check-form input,div#verification-start-form input{float:right}div#verification-check-form br,div#verification-start-form br{clear:both}ul.errors{margin:0 0 5px;padding:0}div#verification-check-form input.submit,div#verification-start-form input.submit{margin:5px 40% 0 0}ul.errors li{list-style:none;color:red}
